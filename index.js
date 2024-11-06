@@ -80,9 +80,12 @@ function keypress(event) {
             break;
     }
 }
-function buttonAnimation(currentKey) { 
-    document.querySelector('.' + currentKey).classList.add('pressed');
-    setTimeout(() => {
-         document.querySelector('.' + currentKey).classList.remove('pressed');
-    }, 100);
+function buttonAnimation(currentKey) {
+    var activeButton = document.querySelector('.' + currentKey);
+    if (activeButton) {
+        activeButton.classList.add('pressed');
+        setTimeout(function () {
+            activeButton.classList.remove('pressed');
+        }, 100);
+    }
 }
