@@ -1,56 +1,42 @@
-// Add event listeners to drum buttons
-var numberOfDrumButtons = document.querySelectorAll('.drum').length;
-for (var i = 0; i < numberOfDrumButtons; i++) {
+const audioFiles = {};
+
+function preloadAudio() {
+    audioFiles['w'] = new Audio('sounds/tom-1.mp3');
+    audioFiles['a'] = new Audio('sounds/tom-2.mp3');
+    audioFiles['s'] = new Audio('sounds/tom-3.mp3');
+    audioFiles['d'] = new Audio('sounds/tom-4.mp3');
+    audioFiles['j'] = new Audio('sounds/snare.mp3');
+    audioFiles['k'] = new Audio('sounds/crash.mp3');
+    audioFiles['l'] = new Audio('sounds/kick-bass.mp3');
+}
+
+
+window.addEventListener('load', preloadAudio);
+
+const numberOfDrumButtons = document.querySelectorAll('.drum').length;
+for (let i = 0; i < numberOfDrumButtons; i++) {
     document.querySelectorAll('.drum')[i].addEventListener('click', function () {
-        var buttonInnerHTML = this.innerHTML;
+        const buttonInnerHTML = this.innerHTML;
         playSound(buttonInnerHTML);
         buttonAnimation(buttonInnerHTML);
     });
 }
 
-// Add keypress event listener
 document.addEventListener('keypress', function (event) {
     playSound(event.key);
     buttonAnimation(event.key);
 });
 
-// Function to play sound based on key
 function playSound(key) {
-    var soundPath;
-
-    switch (key) {
-        case 'w':
-            soundPath = 'sounds/tom-1.mp3';
-            break;
-        case 'a':
-            soundPath = 'sounds/tom-2.mp3';
-            break;
-        case 's':
-            soundPath = 'sounds/tom-3.mp3';
-            break;
-        case 'd':
-            soundPath = 'sounds/tom-4.mp3';
-            break;
-        case 'j':
-            soundPath = 'sounds/snare.mp3';
-            break;
-        case 'k':
-            soundPath = 'sounds/crash.mp3';
-            break;
-        case 'l':
-            soundPath = 'sounds/kick-bass.mp3';
-            break;
-        default:
-            return; // Exit if key does not match
+    const audio = audioFiles[key];
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play();
     }
-
-    var audio = new Audio(soundPath);
-    audio.play();
 }
 
-// Function to add and remove button animation
 function buttonAnimation(currentKey) {
-    var activeButton = document.querySelector('.' + currentKey);
+    const activeButton = document.querySelector('.' + currentKey);
     if (activeButton) {
         activeButton.classList.add('pressed');
         setTimeout(function () {
